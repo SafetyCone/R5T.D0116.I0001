@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
+
+using R5T.T0064;
 
 
 namespace R5T.D0116.I0001
 {
-    public class UsingNamespaceDirectiveBlockLabelProvider : IUsingNamespaceDirectiveBlockLabelProvider
+    [ServiceImplementationMarker]
+    public class UsingNamespaceDirectiveBlockLabelProvider : IUsingNamespaceDirectiveBlockLabelProvider, IServiceImplementation
     {
         public Task<string> GetBlockLabel(
             string namespaceName,
@@ -12,6 +15,7 @@ namespace R5T.D0116.I0001
         {
             string Internal()
             {
+                // If the namespace is in local namespace (as in the namespace is a sub-namespace of the local namespace), use the local namespace block label.
                 var isInLocalNamespace = Instances.NamespaceNameOperator.IsInNamespace(namespaceName, localNamespaceName);
                 if (isInLocalNamespace)
                 {
